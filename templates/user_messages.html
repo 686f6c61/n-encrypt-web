@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Mis Mensajes - Gestor de Mensajes Seguros en Castellano{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">Mis Mensajes</h1>
+    {% if messages %}
+        <ul class="space-y-4">
+        {% for message in messages %}
+            <li class="bg-white p-4 rounded-lg shadow">
+                <div class="flex justify-between items-center">
+                    <span class="text-lg font-semibold">Mensaje #{{ message.id[:8] }}</span>
+                    <span class="text-sm text-gray-500">Creado: {{ message.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                </div>
+                <div class="mt-2">
+                    <a href="{{ url_for('view_message', message_id=message.id) }}" class="text-blue-600 hover:underline">Ver mensaje</a>
+                    <a href="{{ url_for('edit_message', message_id=message.id) }}" class="ml-4 text-green-600 hover:underline">Editar</a>
+                    <form action="{{ url_for('delete_message', message_id=message.id) }}" method="post" class="inline ml-4">
+                        <button type="submit" class="text-red-600 hover:underline" onclick="return confirm('¿Estás seguro de que quieres eliminar este mensaje?')">Eliminar</button>
+                    </form>
+                </div>
+                <div class="mt-2 text-sm text-gray-600">
+                    Expira: {{ message.expires_at.strftime('%Y-%m-%d %H:%M') }}
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-center text-gray-600">No tienes mensajes creados.</p>
+    {% endif %}
+    <div class="mt-8 text-center">
+        <a href="{{ url_for('create_message') }}" class="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-700 transition duration-300">Crear un Nuevo Mensaje</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+/* This file is intentionally left empty as we're using the CDN version of Tailwind CSS */
+/* If you want to customize Tailwind, you can add your custom styles here */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom styles */
+.btn {
+    @apply font-bold py-2 px-4 rounded;
+}
+
+.btn-blue {
+    @apply bg-blue-500 text-white;
+}
+
+.btn-blue:hover {
+    @apply bg-blue-700;
+}
+
+/* Add more custom styles as needed */

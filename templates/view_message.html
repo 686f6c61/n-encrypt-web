@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Ver Mensaje - N - Encrypt{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-center"><i class="fas fa-eye mr-2"></i>Ver Mensaje Encriptado</h1>
+    
+    {% if message %}
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4"><i class="fas fa-unlock-alt mr-2"></i>Mensaje Desencriptado:</h2>
+        <p class="mb-4 text-sm text-gray-600"><i class="fas fa-fingerprint mr-2"></i>ID del Mensaje: {{ request.view_args['message_id'] }}</p>
+        <pre class="bg-gray-100 p-4 rounded-md whitespace-pre-wrap">{{ message }}</pre>
+        <p class="mt-4 text-sm text-gray-600"><i class="fas fa-lock mr-2"></i>Algoritmo de encriptación utilizado: {{ encryption_algorithm }}</p>
+        <div class="mt-4 flex justify-between">
+            <a href="{{ url_for('edit_message', message_id=request.view_args['message_id']) }}" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300">
+                <i class="fas fa-edit mr-2"></i>Editar Mensaje
+            </a>
+            <form action="{{ url_for('delete_message', message_id=request.view_args['message_id']) }}" method="post" class="inline">
+                <input type="hidden" name="encryption_key" value="{{ encryption_key }}">
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition duration-300" onclick="return confirm('¿Estás seguro de que quieres borrar este mensaje? Esta acción no se puede deshacer.')">
+                    <i class="fas fa-trash-alt mr-2"></i>Borrar Mensaje
+                </button>
+            </form>
+        </div>
+    </div>
+    {% else %}
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <form action="{{ request.url }}" method="post" class="space-y-4">
+            <div>
+                <label for="encryption_key" class="block text-sm font-medium text-gray-700"><i class="fas fa-key mr-2"></i>Ingrese la Clave de Encriptación</label>
+                <input type="password" id="encryption_key" name="encryption_key" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+            </div>
+            <div>
+                <label for="user_key" class="block text-sm font-medium text-gray-700"><i class="fas fa-user-lock mr-2"></i>Ingrese la Clave Personal o de Usuario</label>
+                <input type="password" id="user_key" name="user_key" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+            </div>
+            <div>
+                <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300">
+                    <i class="fas fa-unlock mr-2"></i>Desencriptar Mensaje
+                </button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+    <div class="mt-4 text-center">
+        <a href="{{ url_for('index') }}" class="text-blue-600 hover:underline"><i class="fas fa-home mr-1"></i>Volver a la página principal</a>
+    </div>
+</div>
+{% endblock %}
