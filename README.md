@@ -1,7 +1,7 @@
-# Wuilders Encrypt
+# N-Encrypt
 
 ## Descripción
-Wuilders Encrypt es una aplicación web segura para la gestión de mensajes encriptados, desarrollada con Flask, JavaScript vanilla y TailwindCSS. Permite a los usuarios crear, leer, editar y eliminar mensajes encriptados con caducidad, todo ello sin necesidad de registro.
+N-Encrypt  es una aplicación web segura para la gestión de mensajes encriptados, desarrollada con Flask, JavaScript vanilla y TailwindCSS. Permite a los usuarios crear, leer, editar y eliminar mensajes encriptados con caducidad, todo ello sin necesidad de registro.
 
 ## Características principales
 - Creación de mensajes encriptados con caducidad personalizable
@@ -22,8 +22,8 @@ Wuilders Encrypt es una aplicación web segura para la gestión de mensajes encr
 
 1. Clonar el repositorio:
    ```
-   git clone https://github.com/tu-usuario/n-encrypt.git
-   cd n-encrypt
+   git clone https://github.com/686f6c61/n-encrypt-web.git
+   cd n-encrypt-web
    ```
 
 2. Instalar las dependencias:
