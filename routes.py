@@ -22,6 +22,75 @@ def allowed_file(filename):
 def index():
     return render_template('index.html')
 
+@app.route('/edit/<message_id>', methods=['GET', 'POST'])
+def edit_message(message_id):
+    message = Message.query.get_or_404(message_id)
+    
+    if message.expires_at and message.expires_at < datetime.utcnow():
+        db.session.delete(message)
+        db.session.commit()
+        abort(404)
+    
+    if request.method == 'POST':
+        encryption_key = request.form.get('encryption_key')
+        personal_key = request.form.get('personal_key')
+        new_content = request.form.get('content')
+        
+        # Validate keys
+        if not encryption_key or encryption_key != message.encryption_key:
+            flash('Clave de encriptación inválida', 'error')
+            return redirect(url_for('edit_message', message_id=message_id))
+            
+        if not personal_key or personal_key != message.personal_key:
+            flash('Clave personal inválida. Solo el creador puede editar el mensaje.', 'error')
+            return redirect(url_for('edit_message', message_id=message_id))
+            
+        if not new_content or new_content.strip() == '':
+            flash('El contenido del mensaje no puede estar vacío', 'error')
+            return redirect(url_for('edit_message', message_id=message_id))
+        
+        try:
+            # Encrypt new content
+            encrypted_content = encrypt_message(new_content, encryption_key, message.encryption_algorithm).decode()
+            
+            # Update message content and create new version
+            message.content = encrypted_content
+            message.versions.append(MessageVersion(content=encrypted_content))
+            
+            db.session.commit()
+            flash('Mensaje actualizado exitosamente', 'success')
+            return redirect(url_for('view_message', message_id=message_id))
+            
+        except Exception as e:
+            logger.error(f"Error updating message: {str(e)}")
+            flash('Error al actualizar el mensaje', 'error')
+            return redirect(url_for('edit_message', message_id=message_id))
+    
+    # For GET request, decrypt the message if keys are provided in URL
+    encryption_key = request.args.get('encryption_key')
+    personal_key = request.args.get('personal_key')
+    
+    if encryption_key and personal_key:
+        if encryption_key != message.encryption_key:
+            flash('Clave de encriptación inválida', 'error')
+            return redirect(url_for('view_message', message_id=message_id))
+            
+        if personal_key != message.personal_key:
+            flash('Clave personal inválida. Solo el creador puede editar el mensaje.', 'error')
+            return redirect(url_for('view_message', message_id=message_id))
+            
+        try:
+            decrypted_content = decrypt_message(message.content, encryption_key, message.encryption_algorithm)
+            return render_template('edit_message.html', 
+                                message_id=message_id,
+                                message=decrypted_content)
+        except Exception as e:
+            logger.error(f"Error decrypting message: {str(e)}")
+            flash('Error al desencriptar el mensaje', 'error')
+            return redirect(url_for('view_message', message_id=message_id))
+    
+    return render_template('edit_message.html', message_id=message_id)
+
 @app.route('/create', methods=['GET', 'POST'])
 def create_message():
     if request.method == 'POST':
@@ -176,6 +245,8 @@ def view_message(message_id):
                            message=decrypted_content, 
                            message_id=message_id, 
                            encryption_key=encryption_key,
+                           user_key=user_key,
+                           is_owner=user_key == message.personal_key,
                            encryption_algorithm=message.encryption_algorithm,
                            attachments=attachments)
 

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Ver Mensaje - Wuilders Encrypt{% endblock %}
+{% block title %}Ver Mensaje - N-Encrypt{% endblock %}
 
 {% block content %}
 <div class="max-w-2xl mx-auto">
@@ -38,7 +38,13 @@
         {% endif %}
         
         <p class="mt-4 text-sm text-gray-600 dark:text-gray-400"><i class="fas fa-lock mr-2"></i>Algoritmo de encriptación utilizado: {{ encryption_algorithm }}</p>
-        <div class="mt-4 flex justify-end">
+        <div class="mt-4 flex justify-end space-x-4">
+            {% if is_owner %}
+            <a href="{{ url_for('edit_message', message_id=request.view_args['message_id'], encryption_key=encryption_key, personal_key=user_key) }}" 
+               class="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 transition duration-300">
+                <i class="fas fa-edit mr-2"></i>Editar Mensaje
+            </a>
+            {% endif %}
             <form action="{{ url_for('delete_message', message_id=request.view_args['message_id']) }}" method="post" class="inline">
                 <input type="hidden" name="encryption_key" value="{{ encryption_key }}">
                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition duration-300" onclick="return confirm('¿Estás seguro de que quieres borrar este mensaje? Esta acción no se puede deshacer.')">

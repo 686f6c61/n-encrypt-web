@@ -4,52 +4,61 @@
 N-Encrypt es una aplicación web segura para la gestión de mensajes encriptados, desarrollada con Flask, JavaScript vanilla y TailwindCSS. Permite a los usuarios crear, leer, editar y eliminar mensajes encriptados con caducidad, todo ello sin necesidad de registro.
 
 ## Características principales
-- Creación de mensajes encriptados con caducidad personalizable
-- Lectura de mensajes mediante ID único y clave de encriptación
-- Edición y eliminación de mensajes existentes
-- Interfaz de usuario intuitiva y responsive
-- Soporte para múltiples algoritmos de encriptación (SHA256, SHA384, SHA512)
-- Modo oscuro para mayor comodidad visual
-- Soporte para archivos adjuntos encriptados
-- Sistema de verificación CAPTCHA
+- **Creación de mensajes encriptados**: Posibilidad de establecer una caducidad personalizable.
+- **Lectura de mensajes**: Acceso mediante ID único y clave de encriptación.
+- **Edición y eliminación**: Modificación y borrado de mensajes existentes.
+- **Interfaz intuitiva**: Diseño responsive y fácil de usar.
+- **Soporte para múltiples algoritmos de encriptación**: Incluye SHA256, SHA384 y SHA512.
+- **Modo oscuro**: Mejora la comodidad visual en entornos oscuros.
+- **Archivos adjuntos encriptados**: Permite adjuntar archivos de manera segura.
+- **Sistema CAPTCHA**: Previene el spam y asegura interacciones genuinas.
 
 ## Almacenamiento y Seguridad de Datos
 
 ### Base de Datos
-- Sistema: PostgreSQL
-- Estructura:
-  * Mensajes encriptados con claves únicas
-  * Gestión de versiones de mensajes
-  * Almacenamiento seguro de archivos adjuntos
-  * Campos de metadatos para control de caducidad
-- Características:
-  * Índices optimizados para búsqueda rápida
-  * Relaciones con integridad referencial
-  * Eliminación en cascada de datos relacionados
-  * Pool de conexiones con reciclado automático
+- **Sistema**: PostgreSQL.
+- **Estructura**:
+  - Mensajes encriptados con claves únicas.
+  - Gestión de versiones de mensajes.
+  - Almacenamiento seguro de archivos adjuntos.
+  - Campos de metadatos para control de caducidad.
+- **Características**:
+  - Índices optimizados para búsqueda rápida.
+  - Relaciones con integridad referencial.
+  - Eliminación en cascada de datos relacionados.
+  - Pool de conexiones con reciclado automático.
 
 ### Entropía y Seguridad
-- Generación de claves:
-  * Uso de `secrets` para generación de IDs únicos
-  * Implementación de Fernet para encriptación simétrica
-  * Salt único por mensaje para derivación de claves
-- Algoritmos de hash soportados:
-  * SHA256 (predeterminado): Equilibrio entre seguridad y rendimiento
-  * SHA384: Mayor seguridad para datos sensibles
-  * SHA512: Máxima seguridad disponible
-- Características de seguridad:
-  * Claves nunca almacenadas en texto plano
-  * Verificación de integridad de datos
-  * Protección contra ataques de fuerza bruta
-  * Sistema de doble clave (encriptación + personal/terceros)
+- **Generación de claves**:
+  - Uso de `secrets` para la creación de IDs únicos.
+  - Implementación de Fernet para encriptación simétrica.
+  - Salt único por mensaje para la derivación de claves.
+- **Algoritmos de hash soportados**:
+  - **SHA256** (predeterminado): Un equilibrio entre seguridad y rendimiento.
+  - **SHA384**: Mayor seguridad para datos sensibles.
+  - **SHA512**: Máxima seguridad disponible.
+- **Características de seguridad**:
+  - Claves nunca almacenadas en texto plano.
+  - Verificación de integridad de datos.
+  - Protección contra ataques de fuerza bruta.
+  - Sistema de doble clave (encriptación + personal/terceros).
 
 ## Requisitos del sistema
-- Python 3.8+
-- Flask
-- SQLAlchemy
-- Flask-Migrate
-- PostgreSQL
-- Cryptography
+- **Python**: 3.8+
+- **Frameworks y librerías**:
+  - Flask
+  - SQLAlchemy
+  - Flask-Migrate
+  - Cryptography
+- **Base de datos**: PostgreSQL
+
+## Instalación
+
+1. **Clonar el repositorio**:
+   ```bash
+   git clone https://github.com/686f6c61/n-encrypt-web.git
+   cd n-encrypt
+
 
 ## Instalación
 

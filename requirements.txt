@@ -1,14 +1,20 @@
+# Web Framework and Extensions
 Flask==3.0.0
 Flask-SQLAlchemy==3.1.1
 Flask-Migrate==4.0.5
 Flask-CORS==4.0.0
-cryptography==41.0.7
-psycopg2-binary==2.9.9
+
+# Database
 SQLAlchemy==2.0.23
+psycopg2-binary==2.9.9
 alembic==1.12.1
+
+# Security and Encryption
+cryptography==41.0.7
 Werkzeug==3.0.1
-pillow
-flask-migrate
-psycopg2-binary
-werkzeug 
-gunicorn==23.0.0
+
+# Image Processing
+Pillow==10.1.0  # For generate_icons.py
+
+# Development Tools
+python-dotenv==1.0.0
