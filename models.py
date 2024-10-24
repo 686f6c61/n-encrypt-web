@@ -11,6 +11,18 @@ class MessageVersion(db.Model):
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+class FileAttachment(db.Model):
+    """
+    Modelo para almacenar archivos adjuntos encriptados.
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    message_id = db.Column(db.String(64), db.ForeignKey('message.id'), nullable=False)
+    filename = db.Column(db.String(255), nullable=False)
+    encrypted_data = db.Column(db.LargeBinary, nullable=False)
+    file_type = db.Column(db.String(100), nullable=False)
+    file_size = db.Column(db.Integer, nullable=False)  # Size in bytes
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
 class Message(db.Model):
     """
     Modelo principal para almacenar mensajes encriptados.
@@ -27,6 +39,7 @@ class Message(db.Model):
     expiration_hours = db.Column(db.Integer, nullable=True)
     expiration_minutes = db.Column(db.Integer, nullable=True)
     versions = db.relationship('MessageVersion', backref='message', lazy=True, cascade='all, delete-orphan')
+    attachments = db.relationship('FileAttachment', backref='message', lazy=True, cascade='all, delete-orphan')
 
     def __init__(self, *args, **kwargs):
         """

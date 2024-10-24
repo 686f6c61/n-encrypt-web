@@ -1,5 +1,13 @@
-Flask-Migrate
-Flask-Cors
+Flask==3.0.0
+Flask-SQLAlchemy==3.1.1
+Flask-Migrate==4.0.5
+Flask-CORS==4.0.0
+cryptography==41.0.7
+psycopg2-binary==2.9.9
+SQLAlchemy==2.0.23
+alembic==1.12.1
+Werkzeug==3.0.1
+pillow
+flask-migrate
 psycopg2-binary
-cryptography
-gunicorn==23.0.0
+werkzeug

@@ -1,45 +1,68 @@
-// main.js
-
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Gestor de Mensajes Seguros en Castellano cargado');
+    console.log('N-Encrypt iniciado');
 
     // Dark mode toggle
     const darkModeToggle = document.getElementById('darkModeToggle');
     const html = document.documentElement;
+    
+    function updateDarkModeUI(isDark) {
+        if (isDark) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+
+        // Update button icons
+        const moonIcon = darkModeToggle.querySelector('.fa-moon');
+        const sunIcon = darkModeToggle.querySelector('.fa-sun');
+        
+        if (isDark) {
+            moonIcon.classList.add('hidden');
+            sunIcon.classList.remove('hidden');
+        } else {
+            moonIcon.classList.remove('hidden');
+            sunIcon.classList.add('hidden');
+        }
+    }
 
     if (darkModeToggle) {
+        // Check system preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Check saved preference or use system preference
+        const savedDarkMode = localStorage.getItem('darkMode');
+        if (savedDarkMode !== null) {
+            updateDarkModeUI(savedDarkMode === 'true');
+        } else {
+            updateDarkModeUI(prefersDark.matches);
+        }
+
+        // Toggle dark mode on button click
         darkModeToggle.addEventListener('click', function() {
-            html.classList.toggle('dark');
-            localStorage.setItem('darkMode', html.classList.contains('dark'));
+            const isDark = !html.classList.contains('dark');
+            updateDarkModeUI(isDark);
+            localStorage.setItem('darkMode', isDark);
         });
 
-        // Check for saved dark mode preference
-        if (localStorage.getItem('darkMode') === 'true') {
-            html.classList.add('dark');
-        }
+        // Listen for system theme changes
+        prefersDark.addEventListener('change', e => {
+            if (localStorage.getItem('darkMode') === null) {
+                updateDarkModeUI(e.matches);
+            }
+        });
     }
 
     // Initialize CAPTCHA if we're on the create message page
     initializeCaptcha();
-
-    // Expiration date calculation on create message page
     initializeExpirationCalculator();
-
-    // Copy URL and encryption key functionality
     initializeCopyFunctionality();
 });
 
 function initializeCaptcha() {
-    // Only initialize if we're on the create message page
     const form = document.querySelector('form[action="/create"]');
     if (!form) return;
 
     const captchaSection = document.getElementById('captcha-section');
-    if (!captchaSection) {
-        console.error('CAPTCHA section not found');
-        return;
-    }
-
     const submitButton = document.getElementById('submit-button');
     const num1Span = document.getElementById('num1');
     const operatorSpan = document.getElementById('operator');
@@ -47,7 +70,7 @@ function initializeCaptcha() {
     const captchaAnswer = document.getElementById('captcha-answer');
     const captchaMessage = document.getElementById('captcha-message');
 
-    if (!submitButton || !num1Span || !operatorSpan || !num2Span || !captchaAnswer || !captchaMessage) {
+    if (!captchaSection || !submitButton || !num1Span || !operatorSpan || !num2Span || !captchaAnswer || !captchaMessage) {
         console.error('Required CAPTCHA elements not found');
         return;
     }
@@ -70,8 +93,6 @@ function initializeCaptcha() {
         submitButton.disabled = true;
         captchaMessage.textContent = '';
         captchaMessage.className = 'text-sm';
-
-        console.log('CAPTCHA generated:', { num1, operator, num2, correctAnswer });
     }
 
     captchaAnswer.addEventListener('input', function() {
@@ -92,16 +113,6 @@ function initializeCaptcha() {
         }
     });
 
-    // Ensure form can't be submitted without correct CAPTCHA
-    form.addEventListener('submit', function(e) {
-        if (submitButton.disabled) {
-            e.preventDefault();
-            captchaMessage.textContent = 'Por favor, complete el CAPTCHA correctamente.';
-            captchaMessage.className = 'text-sm text-red-600 dark:text-red-400';
-        }
-    });
-
-    // Generate initial CAPTCHA
     generateCaptcha();
 }
 
