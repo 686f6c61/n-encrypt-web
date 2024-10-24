@@ -1,5 +1,13 @@
 # N-Encrypt
 
+![Imagen 01](img/img01.png)
+![Imagen 02](img/img02.png)
+![Imagen 03](img/img03.png)
+![Imagen 04](img/img04.png)
+![Imagen 05](img/img05.png)
+![Imagen 06](img/img06.png)
+
+
 ## Descripción
 N-Encrypt es una aplicación web segura para la gestión de mensajes encriptados, desarrollada con Flask, JavaScript vanilla y TailwindCSS. Permite a los usuarios crear, leer, editar y eliminar mensajes encriptados con caducidad, todo ello sin necesidad de registro.
 
