@@ -5,7 +5,7 @@
 ![Imagen 03](img/img03.png)
 ![Imagen 04](img/img04.png)
 ![Imagen 05](img/img05.png)
-![Imagen 06](img/img06.png)
+
 
 
 ## Descripción
